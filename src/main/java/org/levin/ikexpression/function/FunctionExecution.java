@@ -3,13 +3,12 @@
  */
 package org.levin.ikexpression.function;
 
-import org.levin.ikexpression.IllegalExpressionException;
 import org.levin.ikexpression.datameta.BaseDataMeta;
 import org.levin.ikexpression.datameta.Constant;
 import org.levin.ikexpression.datameta.Reference;
+import org.levin.ikexpression.exception.IllegalExpressionException;
 
 import java.lang.reflect.Method;
-import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -20,9 +19,7 @@ import java.util.List;
  * 2008-09-18
  */
 public class FunctionExecution {
-
-    private FunctionExecution() {
-    }
+    private FunctionExecution() { }
 
     /**
      * 根据函数名、参数数组，执行操作，并返回结果Token
@@ -32,7 +29,6 @@ public class FunctionExecution {
      * @return
      * @throws IllegalExpressionException
      */
-    @SuppressWarnings("unchecked")
     public static Constant execute(String functionName, int position, Constant[] args) throws IllegalExpressionException {
         if (functionName == null) {
             throw new IllegalArgumentException("函数名为空");
@@ -61,7 +57,6 @@ public class FunctionExecution {
 
             if (result instanceof Boolean) {
                 return new Constant(BaseDataMeta.DataType.DATATYPE_BOOLEAN, result);
-
             } else if (result instanceof Date) {
                 return new Constant(BaseDataMeta.DataType.DATATYPE_DATE, result);
 
@@ -110,7 +105,7 @@ public class FunctionExecution {
      * @return
      * @throws IllegalExpressionException
      */
-    public static Constant varify(String functionName, int position, BaseDataMeta[] args) throws IllegalExpressionException {
+    public static Constant verify(String functionName, int position, BaseDataMeta[] args) throws IllegalExpressionException {
         if (functionName == null) {
             throw new IllegalArgumentException("函数名为空");
         }
@@ -217,12 +212,7 @@ public class FunctionExecution {
         //转化方法参数类型数组
         Object[] parameters = new Object[args.length];
         for (int i = args.length - 1; i >= 0; i--) {
-            try {
-                parameters[args.length - 1 - i] = args[i].toJavaObject();
-            } catch (ParseException e1) {
-                //抛异常
-                throw new IllegalExpressionException("函数\"" + functionName + "\"参数转化Java对象错误");
-            }
+            parameters[args.length - 1 - i] = args[i].toJavaObject();
         }
         return parameters;
     }
