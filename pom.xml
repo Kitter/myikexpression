@@ -9,7 +9,7 @@
     <name>my-ikexpression</name>
 
     <properties>
-        <junit.version>4.10</junit.version>
+        <junit.version>4.13.1</junit.version>
     </properties>
 
     <dependencies>
